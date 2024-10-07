@@ -29,3 +29,8 @@
 - Sends a message from the loader
 - Sends a message from the client
 - Receives messages
+
+## Sources
+
+- https://sergiodxa.com/tutorials/use-remix-with-socket-io
+- https://stackblitz.com/~/github.com/rossipedia/rossipedia-remix-socket-io?file=app/ws.context.ts
