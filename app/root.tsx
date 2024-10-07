@@ -1,28 +1,45 @@
+import * as React from "react"
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
+  ScrollRestoration
+} from "@remix-run/react"
+import type { LinksFunction } from "@remix-run/node"
 
-import "./tailwind.css";
+import { Socket } from "socket.io-client"
+import { DefaultEventsMap } from "node_modules/socket.io/dist/typed-events"
+import { connect } from "./ws.client"
+import { WSContext } from "./ws.context"
+
+import "./tailwind.css"
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
     href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
+    crossOrigin: "anonymous"
   },
   {
     rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-  },
-];
+    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+  }
+]
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const [socket, setSocket] =
+    React.useState<Socket<DefaultEventsMap, DefaultEventsMap>>()
+
+  React.useEffect(() => {
+    const connection = connect()
+    setSocket(connection)
+    return () => {
+      connection.close()
+    }
+  }, [])
+
   return (
     <html lang="en">
       <head>
@@ -32,14 +49,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <WSContext.Provider value={socket}>{children}</WSContext.Provider>{" "}
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
-  );
+  )
 }
 
 export default function App() {
-  return <Outlet />;
+  return <Outlet />
 }

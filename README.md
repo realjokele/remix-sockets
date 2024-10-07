@@ -1,40 +1,31 @@
-# Welcome to Remix!
+# Using sockets with Remix and Express
 
-- 📖 [Remix docs](https://remix.run/docs)
+## Additional packages
 
-## Development
+- socket.io
+- socket.io-client
 
-Run the dev server:
+## server.mjs
 
-```shellscript
-npm run dev
-```
+- Create socket server
+- Add sockets to AppContext, so action and loader functions can access them
 
-## Deployment
+## app/ws.client.ts
 
-First, build your app for production:
+- Implements connection()
+- connection() is used by root.tsx to connect the client
 
-```sh
-npm run build
-```
+## app/ws.context.ts
 
-Then run the app in production mode:
+- Creates a React Context, which is used by root.tsx
 
-```sh
-npm start
-```
+## app/root.tsx
 
-Now you'll need to pick a host to deploy it to.
+- Connects the client
+- Add the socket context
 
-### DIY
+## app/routes/\_index.tsc
 
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/server`
-- `build/client`
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
+- Sends a message from the loader
+- Sends a message from the client
+- Receives messages
