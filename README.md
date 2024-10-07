@@ -19,7 +19,7 @@
 
 - Creates a React Context, which is used by root.tsx
 
-## app/root.tsx
+## root.tsx
 
 - Connects the client
 - Add the socket context
